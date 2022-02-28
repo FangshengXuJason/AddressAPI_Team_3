@@ -18,10 +18,18 @@ python main.py
 use this on a new terminal: 
 http POST http://127.0.0.1:5000/api/db_populate
 
-4. test get api_books()
+4. test get api_addresses()
 you should see the address of Jason Bourne's residency
 http GET http://127.0.0.1:5000/api/address
 
+5. test get api_address_by_state
+http GET http://127.0.0.1:5000/api/address/WA
+
+6. test get lookup
+WA: 
+http GET http://127.0.0.1:5000/api/lookup?state=WA&filter=filter-content
+NY:
+http GET http://127.0.0.1:5000/api/lookup?state=NY&filter=filter-content
 
 MAKE SURE: you test these API call on the second terminal/cmd while running main.py on the first terminal/cmd. 
 
