@@ -10,7 +10,7 @@ app.config["MONGODB_HOST"] = DB_URI
 
 db = MongoEngine()
 db.init_app(app)
-
+print("connected to db")
 class Address(db.Document): 
     addr_id = db.IntField()
     name= db.StringField()
