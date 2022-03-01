@@ -12,6 +12,8 @@ db = MongoEngine()
 db.init_app(app)
 print("connected to db")
 
+# this is a custom query set 
+# it helps devs filter mongo data
 class AddressQuerySet(QuerySet): 
     def filter_name(self, name): 
         print("name: {}".format(name))
@@ -41,6 +43,8 @@ class AddressQuerySet(QuerySet):
         print("state: {}".format(state))
         return self.filter(state=state)
 
+# A mongodb schema for Address
+# it is design to work for address from that 11 countries/region
 class Address(db.Document): 
     meta = {'queryset_class': AddressQuerySet}
     addr_id = db.IntField()
@@ -65,7 +69,8 @@ class Address(db.Document):
             "zipcode": self.zipcode,
             "country": self.country
         }
-    
+
+
 # look up address with multiple params    
 @app.route('/api/lookup/test2', methods=['GET'])
 def api_lookup_multi_param(): 
@@ -107,22 +112,6 @@ def api_lookup_multi_param():
         return make_response(jsonify(result), 200)
     return make_response("address not found", 404)
 
-
-# add an address and return 201 if success
-@app.route('/api/db_populate', methods=['POST'])
-def db_populate(): 
-    addr1 = Address(addr_id = 1,
-                name="Rachel Bragger",
-                line1="1122 Sunset AVE",
-                line2="APT 202" ,
-                city="New York City",
-                state="NY",
-                zipcode=10005,
-                country="the United States"
-                )
-    addr1.save()
-    return make_response("", 201)
-
 # GET return the details of all addresses
 @app.route('/api/address', methods=['GET'])
 def api_addresses(): 
@@ -132,16 +121,6 @@ def api_addresses():
             result.append(addr)
         return make_response(jsonify(result), 200)
     pass
-
-# search for address in a state
-@app.route('/api/address/<state>', methods=['GET'])
-def api_address_by_state(state):
-    result = []
-    for addr in Address.objects(state = state):
-        result.append(addr)
-    if result: 
-        return make_response(jsonify(result), 200)
-    return make_response("address not found", 404)
 
 
 if __name__ == '__main__': 
