@@ -25,11 +25,9 @@ http GET http://127.0.0.1:5000/api/address
 5. test get api_address_by_state
 http GET http://127.0.0.1:5000/api/address/WA
 
-6. test get lookup
-WA: 
-http GET http://127.0.0.1:5000/api/lookup?state=WA&filter=filter-content
-NY:
-http GET http://127.0.0.1:5000/api/lookup?state=NY&filter=filter-content
+6. test other methods
+You get the idea, this is how you write any test command on shell/cmd: 
+http <METHOD> <URL>
 
 MAKE SURE: you test these API call on the second terminal/cmd while running main.py on the first terminal/cmd. 
 
