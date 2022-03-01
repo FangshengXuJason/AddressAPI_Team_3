@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Flask, make_response, request, jsonify, request
 from flask_mongoengine import MongoEngine
 
@@ -34,8 +35,19 @@ class Address(db.Document):
             "country": self.country
         }
 
+@app.route('/api/lookup/test', methods=['GET'])
+def api_lookup():
+    city = request.args.get('city', default = '', type = str)
+    name = request.args.get('name', default = '', type = str)
+    result = []
+    filtered_addr = Address.objects(name__icontains=name, city=city)
+    for addr in filtered_addr:
+        result.append(addr)
+    if result: 
+        return make_response(jsonify(result), 200)
+    return make_response("address not found", 404)
 
-# populate a JSON file and return 201 if success
+# add an address and return 201 if success
 @app.route('/api/db_populate', methods=['POST'])
 def db_populate(): 
     addr1 = Address(addr_id = 1,
@@ -69,21 +81,8 @@ def api_address_by_state(state):
     if result: 
         return make_response(jsonify(result), 200)
     return make_response("address not found", 404)
-    
-@app.route('/api/lookup', methods=['GET'])
-def api_lookup():
-    state = request.args.get('state', default = 'WA', type = str)
-    filter = request.args.get('filter', default = '*', type = str) # not using this
-    print("state: {}".format(state))
-    print("filter: {}".format(filter))
-    result = []
-    for addr in Address.objects(state = state):
-        result.append(addr)
-    if result: 
-        return make_response(jsonify(result), 200)
-    return make_response("address not found", 404)
 
 
 if __name__ == '__main__': 
-    # app.run()
-    app.run(debug=True)
+    app.run()
+    # app.run(debug=True)
