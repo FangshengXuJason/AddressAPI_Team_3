@@ -1,0 +1,32 @@
+[
+    {
+        "addr_id": 1, 
+        "name": "John Doe",
+        "line1": "1001 Pine SE",
+        "line2": "APT 101", 
+        "city": "Bothell",
+        "state": "WA",
+        "zipcode": 98021,
+        "country": "the United States"
+    }, 
+    {
+        "addr_id": 2, 
+        "name": "Mike Jordan",
+        "line1": "1639 NE 35 CT",
+        "line2": "APT 2308", 
+        "city": "Redmond",
+        "state": "WA",
+        "zipcode": 98052,
+        "country": "the United States"
+    }, 
+    {
+        "addr_id": 3, 
+        "name": "New York Public Library",
+        "line1": "476 5TH AVE",
+        "line2": "", 
+        "city": "New York",
+        "state": "NY",
+        "zipcode": 10018,
+        "country": "the United States"
+    }
+]
