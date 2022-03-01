@@ -1,6 +1,5 @@
-from unicodedata import name
 from flask import Flask, make_response, request, jsonify, request
-from flask_mongoengine import MongoEngine
+from flask_mongoengine import MongoEngine, QuerySet
 
 app = Flask(__name__)
 
@@ -12,7 +11,38 @@ app.config["MONGODB_HOST"] = DB_URI
 db = MongoEngine()
 db.init_app(app)
 print("connected to db")
+
+class AddressQuerySet(QuerySet): 
+    def filter_name(self, name): 
+        print("name: {}".format(name))
+        return self.filter(name__icontains=name)
+
+    def filter_name_exact(self, name): 
+        print("name: {}".format(name))
+        return self.filter(name=name)
+
+    def filter_line1(self, line1): 
+        print("addr line 1: {}".format(line1))
+        return self.filter(line1__icontains=line1)
+
+    def filter_line2(self, line2): 
+        print("addr line 2: {}".format(line2))
+        return self.filter(line2__icontains=line2)
+
+    def filter_zipcode(self, zipcode): 
+        print("zip code: {}".format(zipcode))
+        return self.filter(zipcode=zipcode)
+
+    def filter_city(self, city): 
+        print("city: {}".format(city))
+        return self.filter(city=city)
+    
+    def filter_state(self, state): 
+        print("state: {}".format(state))
+        return self.filter(state=state)
+
 class Address(db.Document): 
+    meta = {'queryset_class': AddressQuerySet}
     addr_id = db.IntField()
     name= db.StringField()
     line1 = db.StringField()
@@ -21,6 +51,7 @@ class Address(db.Document):
     state = db.StringField()
     zipcode = db.IntField()
     country = db.StringField()
+    # see 2.5.6. Custom Query Set in mongo-engine official documentation
 
     def to_json(self): 
         # converts this documents to JSON
@@ -34,18 +65,48 @@ class Address(db.Document):
             "zipcode": self.zipcode,
             "country": self.country
         }
+    
+# look up address with multiple params    
+@app.route('/api/lookup/test2', methods=['GET'])
+def api_lookup_multi_param(): 
+    # need state for sure
+    state = request.args.get('state', default = None, type = str)
+    if not state: 
+        return make_response("state not provided", 400)
 
-@app.route('/api/lookup/test', methods=['GET'])
-def api_lookup():
-    city = request.args.get('city', default = '', type = str)
-    name = request.args.get('name', default = '', type = str)
-    result = []
-    filtered_addr = Address.objects(name__icontains=name, city=city)
-    for addr in filtered_addr:
-        result.append(addr)
+    # need city for sure
+    city = request.args.get('city', default = None, type = str)
+    if not city: 
+        return make_response("city not provided", 400)
+
+    # narrow down to city, state
+    result = Address.objects.filter_state(state).filter_city(city)
+    
+    # optional param: name, line1, line2, zipcode
+    # filter name
+    name = request.args.get('name', default = None, type = str)
+    if name: 
+        result = result.filter_name(name)
+        
+    # filter line 1
+    line1 = request.args.get('line1', default = None, type = str)
+    if line1: 
+        result = result.filter_line1(line1)
+
+    # fileter line 2
+    line2 = request.args.get('line2', default = None, type = str)
+    if line2: 
+        result = result.filter_line2(line2)
+
+    # filter zipcode
+    zipcode = request.args.get('zipcode', default = None, type = int)
+    if line2: 
+        result = result.filter_zipcode(zipcode)
+
     if result: 
         return make_response(jsonify(result), 200)
     return make_response("address not found", 404)
+
 
 # add an address and return 201 if success
 @app.route('/api/db_populate', methods=['POST'])
@@ -62,7 +123,7 @@ def db_populate():
     addr1.save()
     return make_response("", 201)
 
-# GET return the details of all books
+# GET return the details of all addresses
 @app.route('/api/address', methods=['GET'])
 def api_addresses(): 
     if request.method == "GET": 
