@@ -15,6 +15,7 @@ pip install -r requirements.txt
 python main.py
 
 3. Poppulate Data into MongoDB
+You DON'T have to populate the same data multiple times
 use this on a new terminal: 
 http POST http://127.0.0.1:5000/api/db_populate
 
