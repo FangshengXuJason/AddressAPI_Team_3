@@ -1,0 +1,82 @@
+{
+  "countries": [{
+      "id": "1",
+      "Country/Region": "Brazil",
+      "Address Line 1": "street name",
+      "Address Line 2": "house/building number",
+      "ZIP Code": "city-ProvinceCode"
+
+    },
+    {
+      "id": "2",
+      "Country/Region": "Canada",
+      "Address Line 1": "suite or apartment number",
+      "Address Line 2": "unit number",
+      "ZIP Code": "postal code"
+
+    },
+    {
+      "id": "3",
+      "Country/Region": "Germany",
+      "Address Line 1": "street address",
+      "Address Line 2": "PO Box and its number",
+      "ZIP Code": "postal code"
+    },
+    {
+      "id": "4",
+      "Country/Region": "India",
+      "Address Line 1": "Building number and name",
+      "Address Line 2": "Street number and street name",
+      "ZIP Code": "PIN code"
+    },
+    {
+      "id": "5",
+      "Country/Region": "Japan",
+      "Address Line 1": "subarea number, block number and house number",
+      "Address Line 2": "prefecture name and subarea",
+      "ZIP Code": "Postal symbol and postal code"
+    },
+    {
+      "id": "6",
+      "Country/Region": "North Korea",
+      "Address Line 1": "house number",
+      "Address Line 2": "subdivision or precinct of the city",
+      "ZIP Code": ""
+    },
+    {
+      "id": "7",
+      "Country/Region": "South Korea",
+      "Address Line 1": "house number",
+      "Address Line 2": "subdivision or precinct of the city",
+      "ZIP Code": ""
+    },
+    {
+      "id": "8",
+      "Country/Region": "Mexico",
+      "Address Line 1": "street name and building number",
+      "Address Line 2": "neighborhood/quarter",
+      "ZIP Code": "postal code and District code"
+    },
+    {
+      "id": "9",
+      "Country/Region": "Spain",
+      "Address Line 1": "street name",
+      "Address Line 2": "house/building number",
+      "ZIP Code": "postal code"
+    },
+    {
+      "id": "10",
+      "Country/Region": "UK",
+      "Address Line 1": "building name",
+      "Address Line 2": "street name",
+      "ZIP Code": "postal code"
+    },
+    {
+      "id": "11",
+      "Country/Region": "USA",
+      "Address Line 1": "house number",
+      "Address Line 2": "street",
+      "ZIP Code": "Post code"
+    }
+  ]
+}
